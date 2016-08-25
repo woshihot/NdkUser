@@ -1,7 +1,8 @@
 # NdkUser
 使用Ndk开发 C提供String java端显示
 
-##主要参考：
+### 主要参考：
+
 ndk生成so文件
 
 http://blog.csdn.net/krubo1/article/details/50547681
@@ -37,18 +38,20 @@ http://blog.csdn.net/ta893115871/article/details/46955791
 
 在此文件夹下写C/C++代码（include interface，并实现interface中的方法）
 
-##配置
+### 配置
 - 在gradle.properties文件中加入android.useDeprecatedNdk=true
 
 - 在ndklib的build.gradle中加入
-```groovy
+
+```
     ndk{
         moduleName "crazyFredNdk"         //生成的so名字
         abiFilters "armeabi", "armeabi- v7a", "x86"  //输出指定三种abi体系结构下的so库。目前可有可无。
         }
 ```
-    位置 android.defaultConfig.ndk
-```groovy
+   位置 android.defaultConfig.ndk`
+
+```
     task makeJar(type: Copy) {
         delete 'build/libs/crazyFredNdk.jar'
         from('build/intermediates/bundles/release/')
@@ -58,29 +61,29 @@ http://blog.csdn.net/ta893115871/article/details/46955791
         }
     makeJar.dependsOn(build)
 ```
-    位置 android.task
+   位置 android.task
 
-##生成jar包
-    生成jar包命令 project根目录下执行,jar包位置ndklib.build.libs
+## 生成jar包
+   生成jar包命令 project根目录下执行,jar包位置ndklib.build.libs
 ```groovy
     gradlew makeJar
 ```
-    执行终端命令生成jar包。copy- >save
+   执行终端命令生成jar包。copy- >save
 
 
-##生成so文件
-    同步 Tools- >Android- >Sync Project with Gradle Files
+## 生成so文件
+   * 同步 Tools- >Android- >Sync Project with Gradle Files
 
-    重建 project Build - >Rebuild Project
+   * 重建 project Build - >Rebuild Project
 
-    在ndklib\build\intermediates\ndk\debug\lib文件夹下会生成so文件 copy- >save
+       在ndklib\build\intermediates\ndk\debug\lib文件夹下会生成so文件 copy- >save
 
+       此时ndklib中的内容已生成相应的jar和so文件了
 
-    此时ndklib中的内容已生成相应的jar和so文件了
+   * 断开ndklib的引用，将jar和so放入app module的libs文件夹下，并创建jniLibs文件夹
 
-    断开ndklib的引用，将jar和so放入app module的libs文件夹下，并创建jniLibs文件夹
+   * 在app的build.gradle中加入
 
-    在app的build.gradle中加入
 ```groovy
     sourceSets {
         main {
@@ -88,8 +91,8 @@ http://blog.csdn.net/ta893115871/article/details/46955791
         }
     }
 ```
-    位置 android.sourceSets
+   位置 android.sourceSets
 
-    Build- >Make Project
+   * Build- >Make Project
 
 
